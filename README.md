@@ -20,7 +20,7 @@ Open up a browser at ```http://localhost:5000/```: now you're cooking!
 
 If you don't already have one, sign up for a [Heroku](https://www.heroku.com/) account. Everything you need to know and do to deploy is in [Getting Started with Ruby on Heroku](https://devcenter.heroku.com/articles/ruby).
 
-In terminal, cd to your app:
+In terminal, cd into your app:
 
 ```
 $ cd my-pizza-man
