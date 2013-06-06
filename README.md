@@ -33,3 +33,9 @@ $ heroku open
 ```
 
 Then watch the magic happen.
+
+## The Pizza Man
+
+![The Pizza Man](https://raw.github.com/kripy/pizza-man/master/public/img/pizza-man.png)
+
+Illustration by [Ennsu](https://twitter.com/ennsu).
