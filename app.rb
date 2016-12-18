@@ -1,33 +1,28 @@
-require 'sinatra/base'
-require 'mustache/sinatra'
+require "sinatra/base"
+require "sinatra/reloader"
 
 class App < Sinatra::Base
-  register Mustache::Sinatra
-  require './views/layout'
+  set :root,          File.dirname(__FILE__)
+  set :views,         File.dirname(__FILE__) + "/app/views"
+  set :public_folder, File.dirname(__FILE__) + "/app"
 
-  set :mustache, {
-    :views     => './views/',
-    :templates => './templates/'
-  }
+  configure :development do
+    register Sinatra::Reloader
+    also_reload "./app/lib/*"
+  end
+
+  configure :production do
+  end
 
   configure do
-    set :root, File.dirname(__FILE__)
+    # Modules.
+    require "./app/lib/utils.rb"
   end
 
   helpers do
-
   end
 
-  # Function allows both get / post.
-  def self.get_or_post(path, opts={}, &block)
-    get(path, opts, &block)
-    post(path, opts, &block)
-  end   
-
-  get '/' do
-    @page_title = 'Page Title'
-
-    mustache :index
+  get "/test" do
+    puts "Fin."
   end
-
 end
