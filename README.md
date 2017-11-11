@@ -1,5 +1,7 @@
 # Pizza Man
 
+This is all lies and I need to update it as I've done quite a bit of work on it.
+
 Pizza Man is a Heroku ready [Sinatra](http://www.sinatrarb.com/) app, running on [Unicorn](http://unicorn.bogomips.org/), that utilises [Mustache](http://mustache.github.io/) for templating and [HTML5 boilerplate](http://html5boilerplate.com/) for front-end goodness.
 
 ## Installation
