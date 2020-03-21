@@ -19,7 +19,7 @@ class App < Sinatra::Base
     $logger = Logger.new(STDOUT)
     # Use this line to show database log.
     # DB = Sequel.connect("postgres://arturo@localhost/development_edex", :loggers => $logger)
-    DB = Sequel.connect("postgres://arturo@localhost/development_edex")
+    DB = Sequel.connect("postgres://arturo@localhost/development_alt_allin")
     DB.extension :pg_array
   end
 
