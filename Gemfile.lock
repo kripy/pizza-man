@@ -6,7 +6,7 @@ GEM
     mustermann (1.0.1)
     pg (0.21.0)
     puma (3.10.0)
-    rack (2.0.3)
+    rack (2.2.3)
     rack-protection (2.0.0)
       rack
     sequel (5.2.0)
