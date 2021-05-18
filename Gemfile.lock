@@ -4,8 +4,10 @@ GEM
     backports (3.10.3)
     multi_json (1.12.2)
     mustermann (1.0.1)
+    nio4r (2.5.7)
     pg (0.21.0)
-    puma (3.10.0)
+    puma (4.3.8)
+      nio4r (~> 2.0)
     rack (2.0.3)
     rack-protection (2.0.0)
       rack
