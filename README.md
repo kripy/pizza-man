@@ -1,50 +1,92 @@
-# Pizza Man
+# Pizza Man Redux
 
-This is all lies and I need to update it as I've done quite a bit of work on it.
-
-Pizza Man is a Heroku ready [Sinatra](http://www.sinatrarb.com/) app, running on [Unicorn](http://unicorn.bogomips.org/), that utilises [Mustache](http://mustache.github.io/) for templating and [HTML5 boilerplate](http://html5boilerplate.com/) for front-end goodness.
+Pizza Man is my go to framework for spinning up fun things. At some point I may start learning Rails but I have been doing this for so long now that I don't know how to go back.
 
 ## Installation
 
-Firstly, make sure you've [installed Ruby](http://www.ruby-lang.org/en/). Also, install the [Heroku Toolbelt](https://toolbelt.heroku.com/) as it includes [Foreman](https://github.com/ddollar/foreman) for running Procfile-based applications.
+## Migrations
+Create a file in `/app/db/migrations`. I use date-time plus a logical name e.g. `202012031132_create_temp_links.rb`
 
-Then in terminal, clone me:
-
-```
-$ git clone git@github.com:/kripy/pizza-man my-pizza-man
-$ cd my-pizza-man
-$ foreman start
-```
-
-Open up a browser at ```http://localhost:5000/```: now you're cooking!
-
-## Deployment
-
-If you don't already have one, sign up for a [Heroku](https://www.heroku.com/) account. Everything you need to know and do to deploy is in [Getting Started with Ruby on Heroku](https://devcenter.heroku.com/articles/ruby).
-
-In terminal, cd into your app:
+A sample file looks like:
 
 ```
-$ cd my-pizza-man
-$ git init
-$ git add .
-$ git commit -m "init"
-$ heroku create
-$ git push heroku master
-$ heroku open
+Sequel.migration do
+  change do
+    create_table(:temp_links) do
+      primary_key :id
+      Integer     :feedbin_id
+      Integer     :feedbin_feed_id
+      String   		:title
+      String   		:author
+      Text   		  :summary
+      Text   		  :content
+      String   		:url
+      String   		:extracted_content_url
+      DateTime		:published
+      DateTime		:created_at
+      DateTime		:date_added
+    end
+  end
+end
 ```
 
-Then watch the magic happen.
+To run migrations on development use `sequel -m app/db/migrations postgres://localhost/development_alt_all_in`.
 
-## The Pizza Man
+For production use (on Heroku) `heroku run sequel -m app/db/migrations 'postgres://<database name>' -a <heroku app name>`.
 
-![The Pizza Man](https://raw.github.com/kripy/pizza-man/master/public/img/pizza-man.png)
+Note that the Heroku database endpoint can change when the database is updated or migrated. Got stuck badly on this one. Need to get this from the Heroku ENV variables.
 
-Illustration by [Ennsu](https://twitter.com/ennsu).
+## Models
+A sample file looks like:
+
+```
+class TempLink < Sequel::Model(:temp_links)
+
+end
+```
+
+## Library
+Because I am trying to make my code cleaner, library files are essentially classes, well not really, just a bunch of functions.
+
+Utils module is part of the base framework and also an example.
+
+## Workers
+This framework uses `sidekiq` for background jobs.
+
+A sample worker file looks like:
+
+```
+class PushEntry
+  include Sidekiq::Worker
+  sidekiq_options queue: :entry
+
+  def perform(feed_id)
+		Entry.insert_temp_links(feed_id)
+    puts "Insering links for feed_id #{feed_id}."
+	end
+end
+
+```
+
+## Including Files
+Ensure that you include any Model, Library and Worker files in the configure statement in `app.rb`:
+
+```
+configure do
+  # Database models.
+  # require "./app/db/models/***"
+
+  # Modules.
+  # require "./app/lib/***"
+
+  # Workers.
+  # require "./app/lib/workers/***"
+end
+```
 
 ## MIT LICENSE
 
-Copyright (c) 2013 Arturo Escartin
+Copyright (c) 2013-2022 Arturo Escartin
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
